@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 
 import List from "./components/List";
+import Heading from "./components/Heading";
+import Incrementer from "./components/Incrementer";
 import { useTodos } from "./hooks/useTodos";
+import { useNumber } from "./hooks/useNumber";
 import "./App.css";
 
 export type BoxProps = {
@@ -14,39 +17,6 @@ export type PayLoad = {
 };
 
 export const items = ["one", "two", "three"];
-
-const useNumber = (initialValue: number) => useState<number>(initialValue);
-type UserNumberValue = ReturnType<typeof useNumber>[0];
-type UserNumberSetValue = ReturnType<typeof useNumber>[1];
-
-const Button: React.FC<
-	React.DetailedHTMLProps<
-		React.ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	> & {
-		title?: string;
-	}
-> = ({ title, children, style, ...rest }) => (
-	<button
-		{...rest}
-		style={{ ...style, background: "blue", fontSize: "xx-large" }}>
-		{title ?? children}
-	</button>
-);
-
-const Incrementer: React.FC<{
-	value: UserNumberValue;
-	setValue: UserNumberSetValue;
-}> = ({ value, setValue }) => (
-	<Button
-		onClick={() => setValue((prv) => prv + 1)}
-		title={`Add - ${value}`}
-	/>
-);
-
-const Heading = ({ title }: { title: string }) => {
-	return <h2>{title}</h2>;
-};
 
 const Box: React.FC<BoxProps> = ({ children }): JSX.Element => (
 	<div>{children}</div>
