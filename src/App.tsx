@@ -3,24 +3,16 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import List from "./components/List";
 import Heading from "./components/Heading";
 import Incrementer from "./components/Incrementer";
-import { useTodos } from "./hooks/useTodos";
+import Box from "./components/Box";
+import { useTodosManager } from "./hooks/useTodos";
 import { useNumber } from "./hooks/useNumber";
 import "./App.css";
 
-export type BoxProps = {
-	children: React.ReactNode;
-	onClick?: () => void;
-	key?: number;
-};
 export type PayLoad = {
 	text: string;
 };
 
 export const items = ["one", "two", "three"];
-
-const Box: React.FC<BoxProps> = ({ children }): JSX.Element => (
-	<div>{children}</div>
-);
 
 function App() {
 	const { todos, addTodo, removeTodo } = useTodos([
@@ -87,4 +79,17 @@ function App() {
 	);
 }
 
-export default App;
+const AppWrapper = () => {
+	return (
+		<div
+			style={{
+				display: "grid",
+				gridTemplateColumns: "1fr 1fr",
+			}}>
+			<App></App>
+			<App></App>
+		</div>
+	);
+};
+
+export default AppWrapper;

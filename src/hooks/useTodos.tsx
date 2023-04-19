@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from "react";
+import { useCallback, useReducer, createContext } from "react";
 export type Todo = {
 	id: number;
 	done: boolean;
@@ -8,7 +8,15 @@ export type ActionType =
 	| { type: "ADD"; todo: string }
 	| { type: "REMOVE"; id: number };
 
-export function useTodos(initialTodos: Todo[]): {
+export type useTodosManagerResult = ReturnType<typeof useTodosManager>;
+
+const TodoContext = createContext<useTodosManagerResult>({
+	todos: [],
+	addTodo: () => {},
+	removeTodo: () => {},
+});
+
+export function useTodosManager(initialTodos: Todo[]): {
 	todos: Todo[];
 	addTodo: (text: string) => void;
 	removeTodo: (id: number) => void;
@@ -35,3 +43,8 @@ export function useTodos(initialTodos: Todo[]): {
 
 	return { todos, addTodo, removeTodo };
 }
+
+export const TodoProvider: React.FC<{ initialTodos: Todo[] }> = ({
+	initialTodos,
+	children,
+}) => <TodoContext.Provider>{children}</TodoContext.Provider>;
