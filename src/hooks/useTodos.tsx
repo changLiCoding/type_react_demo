@@ -1,4 +1,4 @@
-import { useCallback, useReducer, createContext } from "react";
+import { useCallback, useReducer, createContext, useContext } from "react";
 export type Todo = {
 	id: number;
 	done: boolean;
@@ -44,7 +44,24 @@ export function useTodosManager(initialTodos: Todo[]): {
 	return { todos, addTodo, removeTodo };
 }
 
-export const TodoProvider: React.FC<{ initialTodos: Todo[] }> = ({
-	initialTodos,
-	children,
-}) => <TodoContext.Provider>{children}</TodoContext.Provider>;
+export const TodoProvider: React.FC<{
+	initialTodos: Todo[];
+	children?: string | JSX.Element | JSX.Element[];
+}> = ({ initialTodos, children }) => (
+	<TodoContext.Provider value={useTodosManager(initialTodos)}>
+		{children}
+	</TodoContext.Provider>
+);
+
+export const useTodos = (): Todo[] => {
+	const { todos } = useContext(TodoContext);
+	return todos;
+};
+export const useAddTodo = (): useTodosManagerResult["addTodo"] => {
+	const { addTodo } = useContext(TodoContext);
+	return addTodo;
+};
+export const useRemoveTodo = (): useTodosManagerResult["removeTodo"] => {
+	const { removeTodo } = useContext(TodoContext);
+	return removeTodo;
+};

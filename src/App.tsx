@@ -4,7 +4,12 @@ import List from "./components/List";
 import Heading from "./components/Heading";
 import Incrementer from "./components/Incrementer";
 import Box from "./components/Box";
-import { useTodosManager } from "./hooks/useTodos";
+import {
+	useTodosManager,
+	useAddTodo,
+	useRemoveTodo,
+	useTodos,
+} from "./hooks/useTodos";
 import { useNumber } from "./hooks/useNumber";
 import "./App.css";
 
@@ -15,13 +20,9 @@ export type PayLoad = {
 export const items = ["one", "two", "three"];
 
 function App() {
-	const { todos, addTodo, removeTodo } = useTodos([
-		{
-			id: 999,
-			todo: "Get Up Early",
-			done: false,
-		},
-	]);
+	const todos = useTodos();
+	const addTodo = useAddTodo();
+	const removeTodo = useRemoveTodo();
 
 	const [payload, setPayload] = useState<PayLoad | null>({
 		text: "Inital value",
@@ -79,6 +80,21 @@ function App() {
 	);
 }
 
+const JustShowTodos = () => {
+	const todos = useTodos();
+	const removeTodo = useRemoveTodo();
+	return (
+		<div>
+			{todos?.map((todo, index) => (
+				<Box key={index}>
+					{todo.todo}
+					<button onClick={() => removeTodo(todo.id)}>Remove</button>
+				</Box>
+			))}
+		</div>
+	);
+};
+
 const AppWrapper = () => {
 	return (
 		<div
@@ -87,7 +103,7 @@ const AppWrapper = () => {
 				gridTemplateColumns: "1fr 1fr",
 			}}>
 			<App></App>
-			<App></App>
+			<JustShowTodos />
 		</div>
 	);
 };
