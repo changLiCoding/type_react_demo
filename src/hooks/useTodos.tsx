@@ -1,4 +1,5 @@
 import { useCallback, useReducer, createContext, useContext } from "react";
+import { createGlobalState } from "react-use";
 export type Todo = {
 	id: number;
 	done: boolean;
@@ -15,6 +16,10 @@ const TodoContext = createContext<useTodosManagerResult>({
 	addTodo: () => {},
 	removeTodo: () => {},
 });
+
+// const useGlobalTodos = createGlobalState<Todo[]>([
+// 	{ id: 0, todo: "Get Up Early", done: false },
+// ]);
 
 export function useTodosManager(initialTodos: Todo[]): {
 	todos: Todo[];

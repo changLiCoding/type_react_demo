@@ -4,6 +4,10 @@ import List from "./components/List";
 import Heading from "./components/Heading";
 import Incrementer from "./components/Incrementer";
 import Box from "./components/Box";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectTodos } from "./app/store";
+import { addTodo, removeTodo } from "./app/features/todoSlice";
 import {
 	useTodosManager,
 	useAddTodo,
@@ -12,6 +16,8 @@ import {
 } from "./hooks/useTodos";
 import { useNumber } from "./hooks/useNumber";
 import "./App.css";
+import { createGlobalState } from "react-use";
+import { Todo, TodosSliceState } from "./app/features/todoSlice";
 
 export type PayLoad = {
 	text: string;
@@ -20,9 +26,11 @@ export type PayLoad = {
 export const items = ["one", "two", "three"];
 
 function App() {
-	const todos = useTodos();
-	const addTodo = useAddTodo();
-	const removeTodo = useRemoveTodo();
+	const todos = useSelector(selectTodos);
+	const dispatch = useDispatch();
+	// const todos = useTodos();
+	// const addTodo = useAddTodo();
+	// const removeTodo = useRemoveTodo();
 
 	const [payload, setPayload] = useState<PayLoad | null>({
 		text: "Inital value",
@@ -43,7 +51,7 @@ function App() {
 	// 	alert(item);
 	// }, []);
 	const onListItemClick = (item: string): void => {
-		addTodo(item);
+		dispatch(addTodo(item));
 		alert(item);
 	};
 
@@ -60,7 +68,7 @@ function App() {
 			{todos?.map((todo, index) => (
 				<Box key={index}>
 					{todo.todo}
-					<button onClick={() => removeTodo(todo.id)}>Remove</button>
+					<button onClick={() => dispatch(removeTodo(todo.id))}>Remove</button>
 				</Box>
 			))}
 			<div>
@@ -68,7 +76,8 @@ function App() {
 					type='text'
 					ref={newTodoRef}
 				/>
-				<button onClick={() => addTodo(newTodoRef.current?.value ?? "")}>
+				<button
+					onClick={() => dispatch(addTodo(newTodoRef.current?.value ?? ""))}>
 					Add Todo
 				</button>
 			</div>
@@ -79,33 +88,4 @@ function App() {
 		</div>
 	);
 }
-
-const JustShowTodos = () => {
-	const todos = useTodos();
-	const removeTodo = useRemoveTodo();
-	return (
-		<div>
-			{todos?.map((todo, index) => (
-				<Box key={index}>
-					{todo.todo}
-					<button onClick={() => removeTodo(todo.id)}>Remove</button>
-				</Box>
-			))}
-		</div>
-	);
-};
-
-const AppWrapper = () => {
-	return (
-		<div
-			style={{
-				display: "grid",
-				gridTemplateColumns: "1fr 1fr",
-			}}>
-			<App></App>
-			<JustShowTodos />
-		</div>
-	);
-};
-
-export default AppWrapper;
+export default App;
