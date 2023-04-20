@@ -12,8 +12,9 @@ export class UserService {
 				mutation: LOGIN,
 				variables: { email, password },
 			});
+			console.log(email, password);
+			console.log(response);
 			if (!response || !response.data) throw new Error("No response");
-			console.log(response.data);
 
 			return response.data;
 		} catch (error) {

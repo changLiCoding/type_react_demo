@@ -17,9 +17,9 @@ const LoginForm: React.FC<{
 		<div>
 			<form
 				action='post'
-				onSubmit={(e) => {
+				onSubmit={async (e) => {
 					e.preventDefault();
-					const login = usersService.login(email, password);
+					const login = await usersService.login(email, password);
 					console.log(login);
 				}}>
 				<input
