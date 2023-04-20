@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import React from "react";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import "./index.css";
 
 const client = new ApolloClient({
-	uri: "https://rickandmortyapi.com/graphql",
+	uri: "http://localhost:3000/graphql",
 	cache: new InMemoryCache(),
 });
 
