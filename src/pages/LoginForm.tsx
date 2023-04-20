@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import usersService from "../services/usersService";
 
 const useLoginForm = (initialValue: string) => {
 	return useState<string>(initialValue);
@@ -16,7 +17,11 @@ const LoginForm: React.FC<{
 		<div>
 			<form
 				action='post'
-				onSubmit={(e) => e.preventDefault()}>
+				onSubmit={(e) => {
+					e.preventDefault();
+					const login = usersService.login(email, password);
+					console.log(login);
+				}}>
 				<input
 					type='text'
 					value={email}
