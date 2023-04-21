@@ -1,6 +1,9 @@
-import { LoginUserPayload } from "../../__generated__/graphql";
+import {
+	LoginUserPayload,
+	RegisterUserPayload,
+} from "../../__generated__/graphql";
 import { apolloClient } from "../../__generated__";
-import { LOGIN } from "./queries";
+import { LOGIN, REGISTER } from "./queries";
 
 export class UserService {
 	login = async (
@@ -18,6 +21,20 @@ export class UserService {
 		} catch (error) {
 			throw error;
 		}
+	};
+	register = async (
+		email: string,
+		password: string,
+		username: string
+	): Promise<RegisterUserPayload | undefined> => {
+		try {
+			const response = await apolloClient.mutate({
+				mutation: REGISTER,
+				variables: { email, password, username },
+			});
+			if (!response || !response.data) throw new Error("No response");
+			return response.data.register;
+		} catch (error) {}
 	};
 }
 export default new UserService();

@@ -6,7 +6,7 @@ const useLoginForm = (initialValue: string) => {
 	return useState<string>(initialValue);
 };
 
-type UseLoginForm = ReturnType<typeof useLoginForm>;
+export type UseLoginForm = ReturnType<typeof useLoginForm>;
 
 const LoginForm: React.FC<{
 	email: UseLoginForm[0];
