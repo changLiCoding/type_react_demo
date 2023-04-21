@@ -1,24 +1,29 @@
 import React from "react";
-import { UseLoginForm } from "./LoginForm";
+import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 import usersService from "../services/usersService";
-import gamesService from "../services/gamesService";
-import { RegisterUserInput } from "../__generated__/graphql";
-import { AutoComplete, Button, Checkbox, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 
-const RegisterForm: React.FC<{
-	setUsername: UseLoginForm[1];
-	setPassword: UseLoginForm[1];
-	setEmail: UseLoginForm[1];
-	email: UseLoginForm[0];
-	username: UseLoginForm[0];
-	password: UseLoginForm[0];
-}> = ({ email, password, username, setUsername, setPassword, setEmail }) => {
-	const onFinishFailed = (errorInfo: string) => {
+const RegisterForm: React.FC = () => {
+	const onFinishFailed = (
+		errorInfo: ValidateErrorEntity<{
+			email: string;
+			password: string;
+			username: string;
+		}>
+	): void => {
 		console.log("Failed:", errorInfo);
 	};
-	const onFinish = async (values: string) => {
+	const onFinish = async (values: {
+		email: string;
+		password: string;
+		username: string;
+	}) => {
 		console.log("Received values of form: ", values);
-		const register = await usersService.register(email, password, username);
+		const register = await usersService.register(
+			values.email,
+			values.password,
+			values.username
+		);
 		console.log(register);
 	};
 	const [form] = Form.useForm();
@@ -51,6 +56,7 @@ const RegisterForm: React.FC<{
 				form={form}
 				name='register'
 				onFinish={onFinish}
+				onFinishFailed={onFinishFailed}
 				style={{ maxWidth: 600 }}
 				scrollToFirstError>
 				<Form.Item
