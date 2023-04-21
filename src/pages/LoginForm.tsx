@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import usersService from "../services/usersService";
+import gamesService from "../services/gamesService";
 
 const useLoginForm = (initialValue: string) => {
 	return useState<string>(initialValue);
@@ -20,7 +21,10 @@ const LoginForm: React.FC<{
 				onSubmit={async (e) => {
 					e.preventDefault();
 					const login = await usersService.login(email, password);
-					console.log(login);
+					console.log(login.token);
+					localStorage.setItem("token", login.token);
+					const games = await gamesService.allGames();
+					console.log(games);
 				}}>
 				<input
 					type='text'

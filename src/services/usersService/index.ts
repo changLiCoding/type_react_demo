@@ -1,5 +1,5 @@
 import { LoginUserPayload } from "../../__generated__/graphql";
-import { apolloClient } from "../../main";
+import { apolloClient } from "../../__generated__";
 import { LOGIN } from "./queries";
 
 export class UserService {
@@ -12,11 +12,9 @@ export class UserService {
 				mutation: LOGIN,
 				variables: { email, password },
 			});
-			console.log(email, password);
-			console.log(response);
 			if (!response || !response.data) throw new Error("No response");
 
-			return response.data;
+			return response.data.login;
 		} catch (error) {
 			throw error;
 		}
