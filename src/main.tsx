@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "./__generated__";
+import { apolloClient } from "./graphql";
 import { ConfigProvider } from "antd";
 
 import "antd/dist/reset.css";

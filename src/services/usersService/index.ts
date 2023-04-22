@@ -2,7 +2,7 @@ import {
 	LoginUserPayload,
 	RegisterUserPayload,
 } from "../../__generated__/graphql";
-import { apolloClient } from "../../__generated__";
+import { apolloClient } from "../../graphql";
 import { LOGIN, REGISTER } from "./queries";
 
 export class UserService {
@@ -26,7 +26,7 @@ export class UserService {
 		email: string,
 		password: string,
 		username: string
-	): Promise<RegisterUserPayload | undefined> => {
+	): Promise<RegisterUserPayload> => {
 		try {
 			const response = await apolloClient.mutate({
 				mutation: REGISTER,
@@ -34,7 +34,9 @@ export class UserService {
 			});
 			if (!response || !response.data) throw new Error("No response");
 			return response.data.register;
-		} catch (error) {}
+		} catch (error) {
+			throw error;
+		}
 	};
 }
 export default new UserService();

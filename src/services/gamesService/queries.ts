@@ -20,8 +20,3 @@ export const GAMES_FOR_A_USER = gql`
 		}
 	}
 `;
-
-export const ADD_USER_GAMES = gql`
-  mutation AddUserGames($user_id: Int!, $game_id: Int!) {
-    addUserGames(input: $) {
-  }`;
